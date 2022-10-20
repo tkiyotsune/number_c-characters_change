@@ -19,6 +19,10 @@ def n_change(number)
                 change_number = change_number.gsub(/百/, ",百")
             end
 
+            unless change_number.match(/[2-9]千/)
+                change_number = change_number.gsub(/千/, ",千")
+            end
+
             #  先頭の文字がカンマの場合は削除 
             if change_number[2] === ","
                 change_number.slice!(2)
@@ -34,18 +38,13 @@ def n_change(number)
                 max_index = block_numbers.length.to_i - 1
                 index = 0
                 number = 1
-        
+
                 loop do
                     block_number_result = block_numbers[index].gsub(/[十|百|千|万|億|兆]/,"十"=>"10","百"=>"100","千"=>"1000","万"=>"10000","億"=>"100000000","兆"=>"1000000000000").to_i
-
-                    # puts "block_number_result"
-                    # puts block_number_result
 
                     # 配列の文字列部分が0になる為除外する
                     unless block_number_result === 0
                         number = number * block_number_result
-                        # puts "number1"
-                        # puts number
                     end
 
                     if index === max_index
@@ -54,9 +53,6 @@ def n_change(number)
 
                     index += 1
                 end
-
-                # puts "number2"
-                # puts number
 
                 english_number += number
 
@@ -71,10 +67,10 @@ def n_change(number)
         ## 数字->漢字
         elsif num_divide === true
         
-            # 桁数を取得
-            # puts number.length.to_i 
+            # 桁数を取得しエラーを返す
             if number.length.to_i > 18
                 puts "error"
+                return "error"
             end
 
             # 各単位で区切るために配列を作成
