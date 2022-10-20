@@ -10,11 +10,6 @@ def n_change(number)
             change_number = number.gsub(/[一|二|三|四|五|六|七|八|九]/,
             "一"=>",1","二"=>",2","三"=>",3","四"=>",4","五"=>",5","六"=>",6","七"=>",7","八"=>",8","九"=>",9")
 
-            #  先頭の文字がカンマの場合は削除 
-            if change_number[2] === ","
-                change_number.slice!(2)
-            end
-
             # 百十などの数字が頭にない場合は後付けでカンマを加える
             unless change_number.match(/[2-9]十/)
                 change_number = change_number.gsub(/十/, ",十")
@@ -22,6 +17,11 @@ def n_change(number)
 
             unless change_number.match(/[2-9]百/)
                 change_number = change_number.gsub(/百/, ",百")
+            end
+
+            #  先頭の文字がカンマの場合は削除 
+            if change_number[2] === ","
+                change_number.slice!(2)
             end
 
             # 単位ごとに分けた配列を作成
@@ -38,9 +38,14 @@ def n_change(number)
                 loop do
                     block_number_result = block_numbers[index].gsub(/[十|百|千|万|億|兆]/,"十"=>"10","百"=>"100","千"=>"1000","万"=>"10000","億"=>"100000000","兆"=>"1000000000000").to_i
 
+                    # puts "block_number_result"
+                    # puts block_number_result
+
                     # 配列の文字列部分が0になる為除外する
                     unless block_number_result === 0
                         number = number * block_number_result
+                        # puts "number1"
+                        # puts number
                     end
 
                     if index === max_index
@@ -49,6 +54,9 @@ def n_change(number)
 
                     index += 1
                 end
+
+                # puts "number2"
+                # puts number
 
                 english_number += number
 
