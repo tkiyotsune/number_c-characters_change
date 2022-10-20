@@ -1,6 +1,6 @@
 def n_change(number)
     begin
-        # intか判断 true or false
+        # 英数字か漢数字か判断 true or false
         num_divide = !! (number =~ /[0-9]/)
 
         # 漢字->数字
@@ -72,11 +72,10 @@ def n_change(number)
             # 各単位で区切るために配列を作成
             numbers_array = number.reverse.tr("123456789", "一二三四五六七八九").split("")
 
+            # 余分な文字列部分を除外
             numbers_array.delete('"')
             numbers_array.delete('[')
             numbers_array.delete(']')
-
-            puts numbers_array
 
             # 単位を組み合わせて結合する
             c_characters_number = numbers_array[12] === "0" || numbers_array[12] === nil ? "" : numbers_array[12].to_s + "兆"
